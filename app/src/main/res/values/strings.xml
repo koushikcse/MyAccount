@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">MyAccounts</string>
+    <string name="instructions">Place your fingertip on the Home button to verify your identity</string>
+    <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
+    <string name="fingerprint_success">Fingerprint recognized</string>
+    <string name="fingerprint_hint">Touch sensor</string>
+
+
+</resources>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/item_row"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/hint_color"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/_10sdp">
+
+        <TextView
+            android:id="@+id/acc_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Account"
+            android:textColor="@color/colorBlack"
+            android:textSize="@dimen/_15sdp" />
+    </LinearLayout>
+</android.support.constraint.ConstraintLayout>

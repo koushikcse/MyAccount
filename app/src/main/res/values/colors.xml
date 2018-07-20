@@ -10,4 +10,5 @@
     <color name="finerprint_error">#F4511E</color>
     <color name="fingerprint_fill">#FFFFFF</color>
     <color name="card_solid">#fefefe</color>
+    <color name="colorBlack">#000</color>
 </resources>

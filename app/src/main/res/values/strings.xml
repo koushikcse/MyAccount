@@ -4,6 +4,7 @@
     <string name="fingerprint_not_recognized">Fingerprint not recognized. Try again</string>
     <string name="fingerprint_success">Fingerprint recognized</string>
     <string name="fingerprint_hint">Touch sensor</string>
+    <string name="touch_sensior_or_draw_pattern">Touch sensior or draw pattern</string>
 
 
 </resources>

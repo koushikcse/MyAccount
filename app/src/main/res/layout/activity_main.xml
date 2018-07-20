@@ -3,17 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/colorAccent"
     android:layout_height="match_parent"
+    android:background="@color/hint_color"
     tools:context="com.kusu.myaccounts.fearture.main.presentation.MainActivity">
 
     <com.andrognito.patternlockview.PatternLockView
         android:id="@+id/pattern_lock_view"
         android:layout_width="280dp"
         android:layout_height="280dp"
+        android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        android:layout_marginTop="@dimen/_20sdp"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
@@ -35,10 +35,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Hello"
+        android:text="@string/touch_sensior_or_draw_pattern"
+        android:textColor="@color/colorBlack"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="176dp" />
 
 </android.support.constraint.ConstraintLayout>

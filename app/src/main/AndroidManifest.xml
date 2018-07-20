@@ -14,6 +14,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
+        <activity android:name=".base.presentation.BaseActivity" />
+        <activity android:name=".fearture.addAccount.presentation.AddAccountActivity" />
+        <activity android:name=".fearture.search.presentation.SearchActivity" />
         <activity android:name=".fearture.main.presentation.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,9 +25,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".base.presentation.BaseActivity" />
-        <activity android:name=".fearture.AddAccount.presentation.AddAccountActivity" />
-        <activity android:name=".fearture.search.presentation.SearchActivity" />
+        <activity android:name=".fearture.viewAccount.presenter.ViewAccountActivity" />
     </application>
 
 </manifest>

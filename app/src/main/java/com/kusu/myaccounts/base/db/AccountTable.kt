@@ -5,8 +5,8 @@ import android.arch.persistence.room.PrimaryKey
 
 @Entity
 class AccountTable {
-    @PrimaryKey
-    var accId: Int? = null
+    @PrimaryKey(autoGenerate = true)
+    var accId: Int = 0
     var accName: String = ""
     var accKey1: String = ""
     var accKey2: String = ""

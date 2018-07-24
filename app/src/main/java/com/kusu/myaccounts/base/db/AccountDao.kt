@@ -1,10 +1,7 @@
 package com.example.myapplication.feature.login.data.local
 
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import io.reactivex.Flowable
-import android.arch.persistence.room.OnConflictStrategy
 
 @Dao
 interface AccountDao {
@@ -14,8 +11,16 @@ interface AccountDao {
     @Query("SELECT * FROM AccountTable WHERE accId=:accId")
     fun getAccountFromaccId(accId:Int): Flowable<AccountTable>
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Query("SELECT * FROM AccountTable WHERE accName=:name")
+    fun getAccountsFromaccName(name:String): Flowable<AccountTable>
+
+    @Insert
     fun insertAccounts(vararg acc: AccountTable)
 
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    fun updateAccounts(accountTable: AccountTable)
+
+    @Delete
+    fun deleteAccounts(accountTable: AccountTable)
 
 }

@@ -12,6 +12,20 @@ import javax.inject.Singleton
  */
 @Singleton
 class SearchRepoImpl @Inject constructor(private val appDatabase: MyAppDatabase) : SearchRepo {
+    override fun deleteAccount(account: Account): Flowable<Int> {
+        val acc = AccountTable()
+        acc.accId = account.id
+        acc.accName = account.name
+        acc.accKey1 = account.key1
+        acc.accKey2 = account.key2
+        acc.accKey3 = account.key3
+        acc.accValue1 = account.value1
+        acc.accValue2 = account.value2
+        acc.accValue3 = account.value3
+        val entries = appDatabase.accountTableDao().deleteAccounts(acc)
+        return Flowable.just(entries)
+    }
+
     override fun getAllAccounts(): Flowable<List<Account>> {
         val entries = appDatabase.accountTableDao().all
         return entries.flatMap { t -> convrtAccount(t) }

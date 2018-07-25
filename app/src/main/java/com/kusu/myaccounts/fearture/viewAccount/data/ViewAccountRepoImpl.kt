@@ -12,6 +12,11 @@ import javax.inject.Singleton
  */
 @Singleton
 class ViewAccountRepoImpl @Inject constructor(private val appDatabase: MyAppDatabase) : ViewAccountRepo {
+    override fun updateAccount(acc: Account): Flowable<Account> {
+        appDatabase.accountTableDao().updateAccounts(convrtAccountTable(acc))
+        val entries = appDatabase.accountTableDao().getAccountFromaccId(acc.id)
+        return entries.flatMap({ t: AccountTable -> convrtAccount(t) })
+    }
 
     override fun getAccount(accId: Int): Flowable<Account> {
         val entries = appDatabase.accountTableDao().getAccountFromaccId(accId)
@@ -31,7 +36,19 @@ class ViewAccountRepoImpl @Inject constructor(private val appDatabase: MyAppData
         acc.value3 = t.accValue3
 
         return Flowable.just(acc)
+    }
 
+    private fun convrtAccountTable(t: Account): AccountTable {
+        val acc = AccountTable()
+        acc.accId = t.id
+        acc.accName = t.name
+        acc.accKey1 = t.key1
+        acc.accKey2 = t.key2
+        acc.accKey3 = t.key3
+        acc.accValue1 = t.value1
+        acc.accValue2 = t.value2
+        acc.accValue3 = t.value3
 
+        return acc
     }
 }

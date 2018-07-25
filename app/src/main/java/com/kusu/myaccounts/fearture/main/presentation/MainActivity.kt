@@ -19,23 +19,13 @@ import android.widget.TextView
 import com.andrognito.patternlockview.PatternLockView
 import com.andrognito.patternlockview.listener.PatternLockViewListener
 import com.andrognito.patternlockview.utils.PatternLockUtils
-
 import com.kusu.myaccounts.R
-import com.kusu.myaccounts.R.id.message_txt
 import com.kusu.myaccounts.base.util.FingerprintHandler
 import com.kusu.myaccounts.fearture.search.presentation.SearchActivity
 import kotlinx.android.synthetic.main.activity_main.*
-
 import java.io.IOException
-import java.security.InvalidAlgorithmParameterException
-import java.security.InvalidKeyException
-import java.security.KeyStore
-import java.security.KeyStoreException
-import java.security.NoSuchAlgorithmException
-import java.security.NoSuchProviderException
-import java.security.UnrecoverableKeyException
+import java.security.*
 import java.security.cert.CertificateException
-
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
@@ -53,33 +43,18 @@ class MainActivity : AppCompatActivity() {
 
         textView = findViewById<TextView>(R.id.message_txt)
 
+        setPatternLock()
 
-        pattern_lock_view.addPatternLockListener(object : PatternLockViewListener {
-            override fun onComplete(pattern: MutableList<PatternLockView.Dot>?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-                Log.e("pattern", "" + PatternLockUtils.patternToString(pattern_lock_view, pattern))
-                if ((PatternLockUtils.patternToString(pattern_lock_view, pattern)) == "03678") {
-                    val intent = Intent(this@MainActivity, SearchActivity::class.java)
-                    startActivity(intent)
-                }else{
-                    textView!!.text = "Your pattern does not match!"
-                }
-                pattern_lock_view.clearPattern()
-            }
+        setFingurePrintLock()
 
-            override fun onCleared() {
+    }
 
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
+    override fun onRestart() {
+        super.onRestart()
+        setFingurePrintLock()
+    }
 
-            override fun onStarted() {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-
-            override fun onProgress(progressPattern: MutableList<PatternLockView.Dot>?) {
-//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-            }
-        })
+    private fun setFingurePrintLock() {
 
         // Initializing both Android Keyguard Manager and Fingerprint Manager
         val keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
@@ -121,6 +96,38 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }
+    }
+
+
+    fun setPatternLock() {
+        pattern_lock_view.addPatternLockListener(object : PatternLockViewListener {
+            override fun onComplete(pattern: MutableList<PatternLockView.Dot>?) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+                Log.e("pattern", "" + PatternLockUtils.patternToString(pattern_lock_view, pattern))
+                if ((PatternLockUtils.patternToString(pattern_lock_view, pattern)) == "03678") {
+                    val intent = Intent(this@MainActivity, SearchActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    textView!!.text = "Your pattern does not match!"
+                }
+                pattern_lock_view.clearPattern()
+            }
+
+            override fun onCleared() {
+
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onStarted() {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+
+            override fun onProgress(progressPattern: MutableList<PatternLockView.Dot>?) {
+//                TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            }
+        })
+
     }
 
     @TargetApi(Build.VERSION_CODES.M)

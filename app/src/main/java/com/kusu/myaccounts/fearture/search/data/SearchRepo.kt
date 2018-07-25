@@ -8,4 +8,5 @@ import io.reactivex.Flowable
  */
 interface SearchRepo {
     fun getAllAccounts(): Flowable<List<Account>>
+    fun deleteAccount(account: Account): Flowable<Int>
 }

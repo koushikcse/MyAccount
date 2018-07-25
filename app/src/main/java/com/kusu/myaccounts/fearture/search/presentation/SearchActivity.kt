@@ -1,5 +1,6 @@
 package com.kusu.myaccounts.fearture.search.presentation
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Intent
@@ -22,6 +23,8 @@ import kotlinx.android.synthetic.main.activity_search.*
 class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     lateinit var searadapter: SearchAdapter
     private lateinit var searchViewModel: SearchViewModel
+    private val REQUEST_ADD_ACCOUNT_CODE = 1
+    private val REQUEST_UPDATE_ACCOUNT_CODE = 2
 
     override fun onQueryTextSubmit(query: String?): Boolean {
         return true
@@ -36,6 +39,9 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         super.onCreate(savedInstanceState)
         (application as MyApp).buildSearchComponent()
         setContentView(R.layout.activity_search)
+
+        search_view.queryHint = "Search here.."
+
         searchViewModel = ViewModelProviders.of(this).get(SearchViewModel::class.java)
 
         searchViewModel.getAllAccounts()
@@ -43,33 +49,6 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         searchViewModel.accountList.observe(this, Observer { accountlist ->
             setAccountValues(accountlist!!)
         })
-
-
-        //crating an arraylist to store users using the data class user
-        val accountList = ArrayList<Account>()
-        val acc = Account()
-        acc.id = 0
-        acc.name = "facebook"
-        accountList.add(acc)
-        val acc1 = Account()
-        acc1.id = 1
-        acc1.name = "gmail"
-        accountList.add(acc1)
-
-//        accountList.add(Account(1, "facebook"))
-//        accountList.add(Account(1, "facebook"))
-//        accountList.add(Account(2, "gmail"))
-//        accountList.add(Account(2, "gmail"))
-//        accountList.add(Account(2, "gmail"))
-//        accountList.add(Account(3, "basecamp"))
-//        accountList.add(Account(4, "bitbucket"))
-//        accountList.add(Account(4, "bitbucket"))
-//        accountList.add(Account(4, "bitbucket"))
-//        accountList.add(Account(4, "bitbucket"))
-//        accountList.add(Account(4, "bitbucket"))
-//        accountList.add(Account(4, "bitbucket"))
-
-
     }
 
 
@@ -79,10 +58,13 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         //adding a layoutmanager
         acc_list.layoutManager = LinearLayoutManager(this, LinearLayout.VERTICAL, false)
         searadapter = SearchAdapter(accountList, this, object : ItemClickListener {
+            override fun itemDeleteClick(account: Account) {
+                searchViewModel.deleteAccount(account)
+            }
+
             override fun itemClick(account: Account) {
-                finish()
-                startActivity(Intent(this@SearchActivity, ViewAccountActivity::class.java)
-                        .putExtra("Account", account))
+                startActivityForResult(Intent(this@SearchActivity, ViewAccountActivity::class.java)
+                        .putExtra("Account", account), REQUEST_UPDATE_ACCOUNT_CODE)
             }
         })
         acc_list.adapter = searadapter
@@ -90,9 +72,25 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         search_view.setOnQueryTextListener(this)
 
         add_new_btn.setOnClickListener(View.OnClickListener {
-            finish()
-            startActivity(Intent(this@SearchActivity, AddAccountActivity::class.java))
+            startActivityForResult(Intent(this@SearchActivity, AddAccountActivity::class.java), REQUEST_ADD_ACCOUNT_CODE)
         })
+
+        searchViewModel.isdeleted.observe(this, Observer { t ->
+            if (t!!) {
+                searchViewModel.getAllAccounts()
+            }
+        })
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == REQUEST_ADD_ACCOUNT_CODE) {
+                searchViewModel.getAllAccounts()
+            } else if (requestCode == REQUEST_UPDATE_ACCOUNT_CODE) {
+                searchViewModel.getAllAccounts()
+            }
+        }
     }
 }
 

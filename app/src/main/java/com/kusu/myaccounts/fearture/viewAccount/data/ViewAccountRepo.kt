@@ -8,4 +8,5 @@ import io.reactivex.Flowable
  */
 interface ViewAccountRepo {
     fun getAccount(accId: Int): Flowable<Account>
+    fun updateAccount(acc: Account): Flowable<Account>
 }

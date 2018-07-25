@@ -10,12 +10,12 @@ import io.reactivex.subscribers.DisposableSubscriber
 import javax.inject.Inject
 
 /**
- * Created by innofied on 24/7/18.
+ * Created by innofied on 25/7/18.
  */
-class ViewAccountUsecase @Inject constructor (private val repo: ViewAccountRepo) : BaseUsecase<ViewAccountUsecase.Input, Account>(){
-    override fun execute(input: Input, subscriber: DisposableSubscriber<Account>) {
-        Flowable.just(input.accId)
-                .flatMap<Account> { accId -> repo.getAccount(accId) }
+class UpdateAccountUsecase @Inject constructor (private val repo: ViewAccountRepo) : BaseUsecase<UpdateAccountUsecase.Input, Account>(){
+    override fun execute(input: UpdateAccountUsecase.Input, subscriber: DisposableSubscriber<Account>) {
+        Flowable.just(input.acc)
+                .flatMap<Account> { acc -> repo.updateAccount(acc) }
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(input.observerOnScheduler)
                 .subscribe(subscriber)
@@ -23,5 +23,5 @@ class ViewAccountUsecase @Inject constructor (private val repo: ViewAccountRepo)
         disposables.add(subscriber)
     }
 
-    class Input(val accId: Int, val observerOnScheduler: Scheduler)
+    class Input(val acc: Account, val observerOnScheduler: Scheduler)
 }

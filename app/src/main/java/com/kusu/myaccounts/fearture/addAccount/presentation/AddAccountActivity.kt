@@ -1,10 +1,14 @@
 package com.kusu.myaccounts.fearture.addAccount.presentation
 
+import android.app.Activity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
+import android.widget.Toast
 import com.kusu.myaccounts.R
 import com.kusu.myaccounts.app.MyApp
 import com.kusu.myaccounts.base.model.Account
@@ -23,6 +27,13 @@ class AddAccountActivity : AppCompatActivity() {
         (application as MyApp).buildAddAccountComponent()
         setContentView(R.layout.activity_add_account)
 
+        val toolbar: Toolbar = toolbar
+        setSupportActionBar(toolbar)
+        toolbar.title = "Add Account"
+        toolbar.setTitleTextColor(getColor(R.color.white))
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
+
         addAccountViewModel = ViewModelProviders.of(this).get(AddAccountViewModel::class.java)
 
         save_btn.setOnClickListener(View.OnClickListener {
@@ -38,11 +49,21 @@ class AddAccountActivity : AppCompatActivity() {
             addAccountViewModel.addAccount(acc)
         })
 
-        addAccountViewModel.isAccountAdded.observe(this, Observer {
-
+        addAccountViewModel.isAccountAdded.observe(this, Observer { t ->
+            if (t!!) {
+                Toast.makeText(this, "Account Added", Toast.LENGTH_LONG).show()
+                setResult(Activity.RESULT_OK)
+                finish()
+            }
         })
 
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if (item?.itemId == android.R.id.home) {
+            onBackPressed()
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
 }

@@ -9,10 +9,10 @@ interface AccountDao {
     val all: Flowable<List<AccountTable>>
 
     @Query("SELECT * FROM AccountTable WHERE accId=:accId")
-    fun getAccountFromaccId(accId:Int): Flowable<AccountTable>
+    fun getAccountFromaccId(accId: Int): Flowable<AccountTable>
 
     @Query("SELECT * FROM AccountTable WHERE accName=:name")
-    fun getAccountsFromaccName(name:String): Flowable<AccountTable>
+    fun getAccountsFromaccName(name: String): Flowable<AccountTable>
 
     @Insert
     fun insertAccounts(vararg acc: AccountTable)
@@ -21,6 +21,6 @@ interface AccountDao {
     fun updateAccounts(accountTable: AccountTable)
 
     @Delete
-    fun deleteAccounts(accountTable: AccountTable)
+    fun deleteAccounts(accountTable: AccountTable): Int
 
 }

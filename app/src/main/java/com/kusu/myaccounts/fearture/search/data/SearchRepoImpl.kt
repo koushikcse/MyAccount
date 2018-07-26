@@ -12,6 +12,7 @@ import javax.inject.Singleton
  */
 @Singleton
 class SearchRepoImpl @Inject constructor(private val appDatabase: MyAppDatabase) : SearchRepo {
+
     override fun deleteAccount(account: Account): Flowable<Int> {
         val acc = AccountTable()
         acc.accId = account.id

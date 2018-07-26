@@ -77,8 +77,10 @@ class SearchActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         searchViewModel.isdeleted.observe(this, Observer { t ->
             if (t!!) {
+                searchViewModel.setIsDeleted()
                 searchViewModel.getAllAccounts()
             }
+
         })
     }
 

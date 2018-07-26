@@ -39,6 +39,10 @@ class SearchViewModel(application: Application) : AndroidViewModel(application) 
 
     }
 
+    internal fun setIsDeleted() {
+        isdeleted.value = false
+    }
+
     internal fun deleteAccount(account: Account) {
         deleteUsecase.get().execute(
                 DeleteUsecase.Input(account, AndroidSchedulers.mainThread()),
